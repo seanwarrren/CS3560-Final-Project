@@ -4,7 +4,7 @@
 
 ### _Description:_
 
-* Develop a web application that helps users track their income and expenses, analyze spending habits, and receive AI-driven budgeting suggestions.
+* This project aims to develop a web application that helps users track their income and expenses, focusing on applying object oriented programming principles for modularity, reusability, and maintainability. The system will support analyzing spending habits and receiving AI-driven budgeting suggestions, ensuring efficient performance and scalbility.
   
 ### _Key Features:_
 
@@ -28,10 +28,22 @@
 
 ### _Technologies:_
 
-* **GUI:** React for a dynamic user interface.
+* **Programming Language:** Java, JavaScript (React.js), HTML, CSS
   
-* **Database:** PostgreSQl for storing transactions, budgets, user data, etc.
+* **Database:** PostgreSQL for storing transactions, budgets, user data, etc.
   
 * **API:** OpenAI API for generating financial recommendations.
   
   	* May use Plaid API to automatically import transactions from bank accounts, credit cards, etc.
+ 
+* **Development tools:** VScode, Figma
+
+### Expected Outcomes
+
+* A fully functional budgeting assistant following best OOP practices.
+
+* Modular, scalable, and reusable design allowing future extensions.
+  
+* Efficient handling of different transaction inputs and appropriate report generation.
+  
+* User-friendly and appealing interface with an intuitive workflow.
