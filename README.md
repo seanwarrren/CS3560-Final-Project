@@ -38,7 +38,7 @@
  
 * **Development tools:** VScode, Figma
 
-### Expected Outcomes
+### _Expected Outcomes_
 
 * A fully functional budgeting assistant following best OOP practices.
 
