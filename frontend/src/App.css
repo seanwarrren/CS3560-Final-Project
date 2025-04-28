@@ -2,37 +2,254 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.Background {
+  background-color: #0F103C;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.box-container {
+  position: relative;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.box1 {
+  width: 277px;
+  height: 140px;
+  border-radius: 25px;
+  background: #2A2D54; 
+  position: absolute;
+  top: 240px;
+  left: 400px;
+}
+
+.box2 {
+  width: 277px;
+  height: 83px;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #FC6E4B 0%, #DC1F6E 100%);
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  top: 135px;
+  left: 400px;
+}
+
+.box3 {
+  width: 436px;
+  height: 280px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 405px;
+  left: 150px;
+}
+
+.box4 {
+  width: 309px;
+  height: 280px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 405px;
+  left: 615px;
+}
+
+.box5 {
+  width: 324px;
+  height: 391px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 295px;
+  left: 950px;
+}
+
+.box6 {
+  width: 225px;
+  height: 111px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 135px;
+  left: 150px;
+}
+
+.box7 {
+  width: 225px;
+  height: 111px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 270px;
+  left: 150px;
+}
+
+.box8 {
+  width: 225px;
+  height: 242px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 135px;
+  left: 700px;
+}
+
+.box9 {
+  width: 324px;
+  height: 131px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 135px;
+  left: 950px;
+}
+
+.box10 {
+  width: 297px;
+  height: 64px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 35px;
+  left: 450px;
+}
+
+.box11 {
+  width: 297px;
+  height: 64px;
+  border-radius: 25px;
+  background: #2A2D54;
+  position: absolute;
+  top: 35px;
+  left: 770px;
+}
+
+.circle {
+  width: 66px;
+  height: 66px;
+  background: #2A2D54;
+  border-radius: 50%;
+  position: absolute;
+  top: 35px;
+  left: 1210px;
+  
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
+
+.title-box {
+  width: 466px;
+  height: 100px;
+  padding: px;
+  font-family: 'Lexend', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  position: absolute;
+  top: 23px;
+  left: 170px;
+}
+
+.title-box .title {
+  color: #8B8B8B;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.title-box .subtitle {
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.text-button6 {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px; /* adjust padding for top-left positioning */
+  position: relative;
+  left: 55px;
+}
+
+.text-button7 {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px; /* adjust padding for top-left positioning */
+  position: relative;
+  left: 60px;
+}
+
+.text-button6:hover {
+  color: #03E8CD; /* bright teal on hover */
+}
+
+.text-button7:hover {
+  color: #03E8CD; /* bright teal on hover */
+}
+
+.box6 .box6-title {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  left: -45px;
+  top: 4px;
+}
+
+.box7 .box7-title {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  left: -50px;
+  top: 4px;
+}
+
+.box3 .box3-title {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  top: 15px;
+  left:-113px;
+}
+
+.box5 .box5-title {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  top: 15px;
+  left:-96px;
 }
