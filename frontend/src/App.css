@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+body {
+  background-color: #0F103C;
+  transition: background-color 0.4s;
+}
+
 .Background {
   background-color: #0F103C;
   min-height: 100vh;
@@ -20,21 +25,10 @@
 }
 
 .box1 {
-  width: 277px;
-  height: 140px;
+  width: 250px;
+  height: 245px;
   border-radius: 25px;
   background: #2A2D54; 
-  position: absolute;
-  top: 240px;
-  left: 400px;
-}
-
-.box2 {
-  width: 277px;
-  height: 83px;
-  border-radius: 25px;
-  background: linear-gradient(90deg, #FC6E4B 0%, #DC1F6E 100%);
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.25);
   position: absolute;
   top: 135px;
   left: 400px;
@@ -62,11 +56,11 @@
 
 .box5 {
   width: 324px;
-  height: 391px;
+  height: 335px;
   border-radius: 25px;
   background: #2A2D54;
   position: absolute;
-  top: 295px;
+  top: 350px;
   left: 950px;
 }
 
@@ -91,18 +85,18 @@
 }
 
 .box8 {
-  width: 225px;
-  height: 242px;
+  width: 250px;
+  height: 245px;
   border-radius: 25px;
   background: #2A2D54;
   position: absolute;
   top: 135px;
-  left: 700px;
+  left: 675px;
 }
 
 .box9 {
   width: 324px;
-  height: 131px;
+  height: 190px;
   border-radius: 25px;
   background: #2A2D54;
   position: absolute;
@@ -111,35 +105,36 @@
 }
 
 .box10 {
-  width: 297px;
+  width: 285px;
   height: 64px;
   border-radius: 25px;
-  background: #2A2D54;
+  background: #1C1E38;
   position: absolute;
   top: 35px;
   left: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .box11 {
   width: 297px;
   height: 64px;
+  background: #1C1E38; /* slightly darker than other boxes */
   border-radius: 25px;
-  background: #2A2D54;
   position: absolute;
   top: 35px;
   left: 770px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.circle {
-  width: 66px;
-  height: 66px;
-  background: #2A2D54;
-  border-radius: 50%;
-  position: absolute;
-  top: 35px;
-  left: 1210px;
-  
-}
+
 
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
 
@@ -252,4 +247,271 @@
   position: relative;
   top: 15px;
   left:-96px;
+}
+
+.box1 .box1-title {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  top: 15px;
+  left:-50px;
+}
+
+.box8 .box8-title {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  top: 15px;
+  left:-50px;
+}
+
+.box4 .box4-title {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  position: relative;
+  top: 13px;
+  left:-35px;
+}
+
+.box9 .box9-title {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  top: 5px;
+  left:-72px;
+}
+
+.text-button9 {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px; /* adjust padding for top-left positioning */
+  position: relative;
+  left: 80px;
+}
+
+.text-button9:hover {
+  color: #03E8CD; /* bright teal on hover */
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background: #1D1F3A;
+  padding: 30px;
+  border-radius: 20px;
+  width: 350px;
+  box-shadow: 0px 0px 20px #000;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-family: 'Lexend', sans-serif;
+}
+
+.modal h2 {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.modal-input,
+.modal-select {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Lexend', sans-serif;
+}
+
+.modal-submit,
+.modal-close {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: 'Lexend', sans-serif;
+}
+
+.modal-submit {
+  background: #03E8CD;
+  color: black;
+}
+
+.modal-close {
+  background: #FC6E4B;
+  color: white;
+}
+
+.box11 .date-text {
+  font-family: 'Lexend', sans-serif;
+  color: #B0B3C5; /* muted gray-blue for a modern look */
+  font-size: 18px;
+  font-weight: 400;
+  position: relative;
+  left: -50px;
+  
+}
+
+.net-total-text {
+  font-family: 'Lexend', sans-serif;
+  color: #B0B3C5;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.login-page {
+  background-color: #0F103C;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: 'Lexend', sans-serif;
+}
+
+.login-input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-top: px;
+  margin-bottom: 20px;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+}
+
+.login-button {
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  background-color: #03E8CD;
+  color: black;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 35px;
+  left: 1150px; /* adjust this to match your layout */
+}
+
+.user-name {
+  color: white;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #FC6E4B 0%, #DC1F6E 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lexend', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1C1E38;
+}
+
+.user-info-wrapper {
+  position: absolute;
+  top: 35px;            /* aligns with date/net total boxes */
+  left: 1210px;         /* adjust as needed */
+  width: 66px;
+  height: 66px;
+}
+
+.user-name {
+  position: absolute;
+  top: 50%;
+  right: 76px; /* 66px for circle + 10px gap */
+  transform: translateY(-50%);
+  width: 100px;            /* ✅ give it enough width */
+  text-align: right;
+  font-family: 'Lexend', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: white;
+  word-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+
+
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-animate {
+  animation: fadeScaleIn 0.3s ease-out;
+}
+
+@keyframes fadeOutScale {
+  0% {
+    opacity: 1;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.fade-scale-in {
+  animation: fadeScaleIn 0.3s ease-out;
+}
+
+.fade-scale-out {
+  animation: fadeOutScale 0.3s ease-in forwards;
 }
