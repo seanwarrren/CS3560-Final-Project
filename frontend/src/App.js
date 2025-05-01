@@ -10,27 +10,45 @@ function App() {
   const [inputName, setInputName] = useState("");
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  useEffect(() => {
+    if (!loggedIn) {
+      localStorage.removeItem("userName");
+    }
+  }, [loggedIn]);
 
   const handleLogin = () => {
     if (inputName.trim() !== "") {
       setIsLoggingIn(true);
-      setTimeout(() => {
-        setUserName(inputName.trim());
-        setLoggedIn(true);
-        setJustLoggedIn(true);
-        setIsLoggingIn(false);
-        localStorage.setItem("userName", inputName);
-      }, 400); // match duration of fade-out
+      const trimmedName = inputName.trim();
+
+      fetch("http://localhost:8080/api/create-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: trimmedName,
+      })
+        .then((res) => {
+          if (res.ok) {
+            setTimeout(() => {
+              setUserName(trimmedName);
+              setLoggedIn(true);
+              setJustLoggedIn(true);
+              setIsLoggingIn(false);
+              localStorage.setItem("userName", trimmedName); // Optional: remove this if you want backend-only tracking
+            }, 400);
+          } else {
+            console.error("Failed to create user");
+          }
+        })
+        .catch((err) => {
+          console.error("Server error during login:", err);
+        });
     }
   };
-
-  useEffect(() => {
-    const savedName = localStorage.getItem("userName");
-    if (savedName) {
-      setUserName(savedName);
-      setLoggedIn(true);
-    }
-  }, []);
 
   useEffect(() => {
     if (justLoggedIn) {
@@ -38,6 +56,35 @@ function App() {
       return () => clearTimeout(timer);
     }
   }, [justLoggedIn]);
+
+  // ======= handle user logout =======
+  const handleLogout = () => {
+    const confirmed = window.confirm("If you logout, data will be lost. Continue?");
+    if (!confirmed) return;
+
+    setIsLoggingOut(true);
+
+    setTimeout(() => {
+      fetch("http://localhost:8080/api/delete-user", {
+        method: "DELETE",
+      })
+        .then((res) => {
+          if (res.ok) {
+            setLoggedIn(false);
+            setUserName("");
+            localStorage.removeItem("userName");
+          } else {
+            console.error("Failed to delete user");
+          }
+        })
+        .catch((err) => {
+          console.error("Server error during logout:", err);
+        })
+        .finally(() => {
+          setIsLoggingOut(false);
+        });
+    }, 400); // Match animation duration
+  };
 
   // ======= Modals for adding income, spending, upcoming bills =======
   const [modalOpen, setModalOpen] = useState(false);
@@ -78,9 +125,9 @@ function App() {
       return (
         <>
           <option value="">Select type</option>
-          <option value="Utilities">Utilities</option>
+          <option value="Rent">Rent</option>
           <option value="Subscriptions">Subscriptions</option>
-          <option value="Loans">Loans</option>
+          <option value="Utilities">Utilities</option>
         </>
       );
     } else {
@@ -92,7 +139,85 @@ function App() {
     }
   };
 
-  // ======= Displaying the date using backend ======
+  // ======= Capture values from adding spending, income, and upcoming bills =======
+  const [transactionName, setTransactionName] = useState("");
+  const [transactionAmount, setTransactionAmount] = useState("");
+  const [transactions, setTransactions] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  // Derived totals
+  const spendingTotal = transactions
+    .filter(t => t.type === "EXPENSE")
+    .reduce((sum, t) => sum + t.amount, 0)
+    .toFixed(2);
+
+  const incomeTotal = transactions
+    .filter(t => t.type === "INCOME")
+    .reduce((sum, t) => sum + t.amount, 0)
+    .toFixed(2);
+
+  const handleSubmitTransaction = () => {
+    const name = transactionName.trim();
+    const category = selectedCategory.trim();
+    const amount = parseFloat(transactionAmount);
+    if (!category || isNaN(amount)) return;
+
+    const type = modalType === "Income" 
+      ? "INCOME" 
+      : modalType === "Bills"
+      ? "BILL" 
+      : "EXPENSE";
+
+    fetch("http://localhost:8080/api/add-transaction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ transactionName, category, amount, type }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          fetchTransactions();
+          closeModal();
+          setTransactionName("");
+          setTransactionAmount("");
+        }
+      })
+      .catch((err) => console.error("Failed to add transaction", err));
+  };
+
+  const fetchTransactions = () => {
+    fetch("http://localhost:8080/api/transactions")
+      .then((res) => res.json())
+      .then((data) => setTransactions(data))
+      .catch((err) => console.error("Failed to fetch transactions", err));
+  };
+
+  const deleteTransaction = (id) => {
+    fetch(`http://localhost:8080/api/transactions/delete?id=${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (res.ok) {
+          fetchTransactions(); // refresh list
+        } else {
+          console.error("Failed to delete transaction");
+        }
+      })
+      .catch((err) => console.error("Error deleting transaction", err));
+  };
+
+  // ======= Transactions =======
+  const totalIncome = transactions.filter(t => t.type === "INCOME").reduce((sum, t) => sum + t.amount, 0);
+  const totalExpense = transactions.filter(t => t.type === "EXPENSE").reduce((sum, t) => sum + t.amount, 0);
+  const netTotal = totalIncome - totalExpense;
+
+  // ======= Load on startup =======
+  useEffect(() => {
+    if (loggedIn) fetchTransactions();
+  }, [loggedIn]);
+
+  // ======= Displaying the date =======
   const [currentDate, setCurrentDate] = useState('');
 
   useEffect(() => {
@@ -120,7 +245,7 @@ function App() {
       <>
         {/* show dashboard */}
         {loggedIn && (
-        <div className={`Background ${justLoggedIn ? "fade-scale-in" : ""}`}>
+        <div className={`Background ${justLoggedIn ? "fade-scale-in" : ""} ${isLoggingOut ? "fade-scale-out" : ""}`}>
           <div className="box-container">
 
             {/* Title Box */}
@@ -133,6 +258,19 @@ function App() {
             {/* Box 1: Spending list */}
             <div className="box1">
               <text className="box1-title">Spending List</text>
+              <ul className="transaction-list">
+              {transactions
+                .filter(t => t.type === "EXPENSE")
+                .map(({ id, name, category, amount }) => (
+                  <li className="transaction-entry" key={id}>
+                    <div className="transaction-text">
+                      <div className="transaction-name">{name}: ${amount.toFixed(2)}</div>
+                      <div className="transaction-category">{category}</div>
+                    </div>
+                    <button className="delete-btn" onClick={() => deleteTransaction(id)}>×</button>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Box 3: Income and Expenses Graph */}
@@ -154,28 +292,56 @@ function App() {
             <div className="box6">
               <text className='box6-title'>Spending</text>
               <button className="text-button6" onClick={() => openModal("Spending")}>+</button>
+              <div className="box-total">${spendingTotal}</div>
             </div>
 
             {/* Box 7: Add Income */}
             <div className="box7">
               <text className='box7-title'>Income</text>
               <button className="text-button7" onClick={() => openModal("Income")}>+</button>
+              <div className="box-total">${incomeTotal}</div>
             </div>
 
             {/* Box 8: Income list */}
             <div className="box8">
               <text className="box8-title">Income List</text>
+              <ul className="transaction-list">
+                {transactions
+                  .filter(t => t.type === "INCOME") 
+                  .map(({ id, name, category, amount }) => (
+                    <li className="transaction-entry" key={id}>
+                      <div className="transaction-text">
+                        <div className="transaction-name">{name}: ${amount.toFixed(2)}</div>
+                        <div className="transaction-category">{category}</div>
+                      </div>
+                      <button className="delete-btn" onClick={() => deleteTransaction(id)}>×</button>
+                    </li>
+                  ))}
+              </ul>
             </div>
 
             {/* Box 9: Upcoming bills */}
             <div className="box9">
               <text className="box9-title">Upcoming Bills</text>
               <button className="text-button9" onClick={() => openModal("Bills")}>+</button>
+              <ul className="transaction-list">
+                {transactions
+                  .filter(t => t.type === "BILL")
+                  .map(({ id, name, category, amount }) => (
+                    <li className="transaction-entry" key={id}>
+                      <div className="transaction-text">
+                        <div className="transaction-name">{name}: ${amount.toFixed(2)}</div>
+                        <div className="transaction-category">{category}</div>
+                      </div>
+                      <button className="delete-btn" onClick={() => deleteTransaction(id)}>×</button>
+                    </li>
+                  ))}
+              </ul>
             </div>
 
             {/* Box 10: Net total */}
             <div className="box10">
-              <div className="net-total-text">Net Total: </div>
+              <div className="net-total-text">Net Total: ${netTotal.toFixed(2)}</div>
             </div>
 
             {/* Box 11: Date */}
@@ -184,9 +350,19 @@ function App() {
             </div>
 
             {/* User info */}
-            <div className="user-info-wrapper">
+            <div 
+              className="user-info-wrapper"
+              onMouseEnter={() => setShowLogout(true)}
+              onMouseLeave={() => setShowLogout(false)}
+            >
               <div className="user-name">{userName}</div>
-              <div className="circle">{userName.charAt(0).toUpperCase()}</div>
+              <div className="circle" onClick={handleLogout}>
+                {userName.charAt(0).toUpperCase()}
+              </div>
+
+              {showLogout && (
+                <div className="logout-tooltip">Logout</div>
+              )}
             </div>
 
           </div>
@@ -196,12 +372,33 @@ function App() {
           <div className="modal-overlay">
             <div className="modal modal-animate">
               <h2>Add {modalType}</h2>
-              <input type="text" placeholder="Enter name" className="modal-input" />
-              <select className="modal-select">
+              <input 
+                type="text" 
+                placeholder="Enter name" 
+                className="modal-input" 
+                value={transactionName}
+                onChange={(e) => setTransactionName(e.target.value)}
+              />
+              <input
+                type="number"
+                placeholder="Enter amount"
+                className="modal-input"
+                value={transactionAmount}
+                onChange={(e) => setTransactionAmount(e.target.value)}
+              />
+              <select 
+                className="modal-select"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
                 {getOptionsForType()}
               </select>
-              <button className="modal-submit">Submit</button>
-              <button className="modal-close" onClick={closeModal}>Close</button>
+              <button className="modal-submit" onClick={handleSubmitTransaction}>
+                Submit
+              </button>
+              <button className="modal-close" onClick={closeModal}>
+                Close
+              </button>
             </div>
           </div>
         )}

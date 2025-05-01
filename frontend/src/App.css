@@ -270,7 +270,7 @@ body {
   font-weight: 400;
   position: relative;
   top: 15px;
-  left:-50px;
+  left:-57px;
 }
 
 .box4 .box4-title {
@@ -381,7 +381,7 @@ body {
   font-size: 18px;
   font-weight: 400;
   position: relative;
-  left: -50px;
+  left: -60px;
   
 }
 
@@ -454,6 +454,26 @@ body {
   font-size: 24px;
   font-weight: 600;
   color: #1C1E38;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.circle:hover {
+  transform: scale(1.05);
+}
+
+.logout-tooltip {
+  position: absolute;
+  top: 75px;
+  right: -5px;
+  background-color: #1D1F3A;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: 'Lexend', sans-serif;
+  font-size: 14px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
 }
 
 .user-info-wrapper {
@@ -469,7 +489,7 @@ body {
   top: 50%;
   right: 76px; /* 66px for circle + 10px gap */
   transform: translateY(-50%);
-  width: 100px;            /* ✅ give it enough width */
+  width: 100px;            /* give it enough width */
   text-align: right;
   font-family: 'Lexend', sans-serif;
   font-size: 12px;
@@ -480,6 +500,104 @@ body {
   line-height: 1.2;
 }
 
+.transaction-list {
+  list-style: none;
+  padding: 10px;
+  max-height: 180px;
+  overflow-y: auto;
+  margin: 0;
+  font-family: 'Lexend', sans-serif;
+  color: #FFFFFF;
+}
+
+.transaction-entry {
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  margin-left: 22px;
+  position: relative;
+  padding-right: 25px;
+}
+
+.transaction-name {
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.transaction-category {
+  font-size: 12px;
+  color: #8B8B8B;
+  margin-top: -3px;
+  position: absolute;
+
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #FC6E4B;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 180px;
+}
+
+.transaction-entry:hover .delete-btn {
+  opacity: 1;
+}
+
+.box6 .box-total {
+  margin-top:5px;
+  font-size: 25px;
+  font-family: 'Lexend', sans-serif;
+  color: #FC6E4B;
+}
+
+.box7 .box-total {
+  margin-top: 5px;
+  font-size: 25px;
+  font-family: 'Lexend', sans-serif;
+  color: #03E8CD;
+}
+
+.box1 .transaction-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  overflow-y: auto;
+  font-family: 'Lexend', sans-serif;
+  color: #FFFFFF;
+  position: absolute;
+  margin-top: 30px;
+}
+
+.box8 .transaction-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  overflow-y: auto;
+  font-family: 'Lexend', sans-serif;
+  color: #FFFFFF;
+  position: absolute;
+  margin-top: 30px;
+}
+
+.box9 .transaction-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  overflow-y: auto;
+  font-family: 'Lexend', sans-serif;
+  color: #FFFFFF;
+  position: absolute;
+  margin-top: 5px;
+  max-height: 130px; /* Adjust as needed for .box9's height */
+}
 
 
 @keyframes fadeScaleIn {

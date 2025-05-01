@@ -1,25 +1,26 @@
 package com.budgetapp.handlers;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
-import com.budgetapp.TransactionManager;
 import com.budgetapp.UserManager;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-public class DeleteUserHandler implements HttpHandler {
+public class CreateUserHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (CorsUtils.handleOptions(exchange)) return;
 
-        if ("DELETE".equals(exchange.getRequestMethod())) {
-            CorsUtils.setCorsHeaders(exchange);
+        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+            CorsUtils.setCorsHeaders(exchange); // apply CORS headers
 
-            UserManager.deleteUser();
-            TransactionManager.clearTransactions();
-            String response = "User deleted";
-            System.out.println(response);
-            
+            InputStream is = exchange.getRequestBody();
+            String name = new String(is.readAllBytes(), StandardCharsets.UTF_8).trim();
+            UserManager.createUser(name);
+
+            String response = "User created";
             exchange.sendResponseHeaders(200, response.length());
             exchange.getResponseBody().write(response.getBytes());
             exchange.close();
@@ -28,5 +29,4 @@ public class DeleteUserHandler implements HttpHandler {
             exchange.close();
         }
     }
- }
-
+}
