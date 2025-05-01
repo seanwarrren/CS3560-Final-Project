@@ -1,6 +1,10 @@
 import React from 'react';
 import './App.css';
 import { useState, useEffect } from 'react';
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Legend
+} from 'recharts';
 
 function App() {
 
@@ -227,6 +231,38 @@ function App() {
       .catch(error => console.error('Error fetching date:', error));
   }, []);
 
+  // ======= charts =======
+  const getLineChartData = () => {
+    let income = 0;
+    let expense = 0;
+  
+    return transactions.map((t, index) => {
+      if (t.type === "INCOME") income += t.amount;
+      else if (t.type === "EXPENSE") expense += t.amount;
+  
+      return {
+        name: `#${index + 1}`,
+        Income: income,
+        Expenses: expense
+      };
+    });
+  };
+  
+  const getPieChartData = () => {
+    const categoryTotals = {};
+  
+    transactions
+      .filter(t => t.type === "EXPENSE")
+      .forEach(t => {
+        categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
+      });
+  
+    return Object.entries(categoryTotals).map(([category, value]) => ({
+      name: category,
+      value
+    }));
+  };
+
   return (
     <div className="App">
       {!loggedIn && (
@@ -276,12 +312,55 @@ function App() {
             {/* Box 3: Income and Expenses Graph */}
             <div className="box3">
               <text className='box3-title'>Income and Expenses</text>
+              <ResponsiveContainer width="95%" height="85%">
+                <LineChart data={getLineChartData()}>
+                  <CartesianGrid stroke="rgba(255, 255, 255, 0.1)" strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fill: "#FFFFFF", fontFamily: "Lexend", fontSize: 12 }}
+                    axisLine={{ stroke: "#FFFFFF" }}
+                    tickLine={{ stroke: "#FFFFFF" }}
+                  />
+                  <YAxis
+                    tick={{ fill: "#FFFFFF", fontFamily: "Lexend", fontSize: 12 }}
+                    axisLine={{ stroke: "#FFFFFF" }}
+                    tickLine={{ stroke: "#FFFFFF" }}
+                  />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: "#1D1F3A", border: "none", borderRadius: 8, color: "#fff" }}
+                    labelStyle={{ color: "#fff", fontFamily: "Lexend" }}
+                    itemStyle={{ color: "#fff", fontFamily: "Lexend" }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: 12, fontFamily: "Lexend", color: "#FFFFFF" }} />
+                  <Line type="monotone" dataKey="Income" stroke="#03E8CD" strokeWidth={2} />
+                  <Line type="monotone" dataKey="Expenses" stroke="#FC6E4B" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
 
             {/* Box 4: Spending categories breakdown */}
-            <div className="box4">
-              <text className="box4-title">Spending Categories Breakdown</text>
-            </div>
+              <div className="box4">
+                <text className="box4-title">Spending Categories Breakdown</text>
+                <ResponsiveContainer width="100%" height="85%">
+                  <PieChart>
+                    <Pie
+                      data={getPieChartData()}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      label
+                    >
+                      {getPieChartData().map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={['#FC6E4B', '#DC1F6E', '#03E8CD', '#FFA500', '#8B8B8B'][index % 5]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
 
             {/* Box 5: AI assistant */}
             <div className="box5">
