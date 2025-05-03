@@ -17,8 +17,10 @@ import com.sun.net.httpserver.HttpServer;
 public class WebServer {
     public static void main(String[] args) throws IOException {
         
-        // Create HTTP server on port 8080
-        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        // Read port from env var
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
+
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         // Register REST API endpoints and associate each with its handler
         server.createContext("/api/date", new DateHandler());
