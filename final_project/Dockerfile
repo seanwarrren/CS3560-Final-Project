@@ -1,17 +1,18 @@
-# Use a base JDK image
 FROM openjdk:17-slim
 
-# Create app directory inside consider
+# Create working directory
 WORKDIR /app
 
-# Copy all Java source files and libraries
+# Copy source code and dependencies
 COPY src/main/java /app
+COPY lib/json-20210307.jar /app/lib/json-20210307.jar
 
-# Compile Java files, including external JAR
-RUN javac -cp ".:/app/lib/json-20210307.jar" com/budgetapp/WebServer.java
+# Compile all .java files recursively
+RUN find . -name "*.java" > sources.txt && \
+    javac -cp ".:/app/lib/json-20210307.jar" @sources.txt
 
-# Expose the port your WebServer listens on
+# Expose port (optional)
 EXPOSE 8080
 
-# Run the backend server
+# Run the server
 CMD ["java", "-cp", ".:/app/lib/json-20210307.jar", "com.budgetapp.WebServer"]
