@@ -29,7 +29,7 @@ function App() {
       setIsLoggingIn(true);
       const trimmedName = inputName.trim();
 
-      fetch("http://localhost:8080/api/create-user", {
+      fetch("https://backend-z9w3.onrender.com/api/create-user", {
         method: "POST",
         headers: {
           "Content-Type": "text/plain",
@@ -71,7 +71,7 @@ function App() {
     setIsLoggingOut(true);
 
     setTimeout(() => {
-      fetch("http://localhost:8080/api/delete-user", {
+      fetch("https://backend-z9w3.onrender.com/api/delete-user", {
         method: "DELETE",
       })
         .then((res) => {
@@ -178,7 +178,7 @@ function App() {
       ? "BILL" 
       : "EXPENSE";
 
-    fetch("http://localhost:8080/api/add-transaction", {
+    fetch("https://backend-z9w3.onrender.com/api/add-transaction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -197,14 +197,14 @@ function App() {
   };
 
   const fetchTransactions = () => {
-    fetch("http://localhost:8080/api/transactions")
+    fetch("https://backend-z9w3.onrender.com/api/transactions")
       .then((res) => res.json())
       .then((data) => setTransactions(data))
       .catch((err) => console.error("Failed to fetch transactions", err));
   };
 
   const deleteTransaction = (id) => {
-    fetch(`http://localhost:8080/api/transactions/delete?id=${id}`, {
+    fetch(`https://backend-z9w3.onrender.com/api/transactions/delete?id=${id}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -234,7 +234,7 @@ function App() {
   const [currentDate, setCurrentDate] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/date')
+    fetch('https://backend-z9w3.onrender.com/api/date')
       .then(response => response.text())
       .then(date => setCurrentDate(date))
       .catch(error => console.error('Error fetching date:', error));
@@ -321,7 +321,7 @@ function App() {
 
     console.log("Prompt being sent to backend:", fullPrompt);
   
-    fetch("http://localhost:8080/api/chatbot", {
+    fetch("https://backend-z9w3.onrender.com/api/chatbot", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: fullPrompt }),
