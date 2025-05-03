@@ -5,16 +5,17 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from 'recharts';
+import { flushSync } from 'react-dom'
 
 function App() {
 
   // ======= Set up a login page on app start =======
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [inputName, setInputName] = useState("");
-  const [justLoggedIn, setJustLoggedIn] = useState(false);
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [showLogout, setShowLogout] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false); 
+  const [userName, setUserName] = useState(""); 
+  const [inputName, setInputName] = useState(""); 
+  const [justLoggedIn, setJustLoggedIn] = useState(false); 
+  const [isLoggingIn, setIsLoggingIn] = useState(false); 
+  const [showLogout, setShowLogout] = useState(false); 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function App() {
               setLoggedIn(true);
               setJustLoggedIn(true);
               setIsLoggingIn(false);
-              localStorage.setItem("userName", trimmedName); // Optional: remove this if you want backend-only tracking
+              localStorage.setItem("userName", trimmedName); 
             }, 400);
           } else {
             console.error("Failed to create user");
@@ -56,12 +57,13 @@ function App() {
 
   useEffect(() => {
     if (justLoggedIn) {
-      const timer = setTimeout(() => setJustLoggedIn(false), 500); // matches animation length
+      const timer = setTimeout(() => setJustLoggedIn(false), 500); 
       return () => clearTimeout(timer);
     }
   }, [justLoggedIn]);
 
-  // ======= handle user logout =======
+
+  // ======= Handle user logout =======
   const handleLogout = () => {
     const confirmed = window.confirm("If you logout, data will be lost. Continue?");
     if (!confirmed) return;
@@ -77,6 +79,8 @@ function App() {
             setLoggedIn(false);
             setUserName("");
             localStorage.removeItem("userName");
+            setAssistantPrompt("");
+            setAssistantResponse("");
           } else {
             console.error("Failed to delete user");
           }
@@ -87,8 +91,9 @@ function App() {
         .finally(() => {
           setIsLoggingOut(false);
         });
-    }, 400); // Match animation duration
+    }, 400); 
   };
+
 
   // ======= Modals for adding income, spending, upcoming bills =======
   const [modalOpen, setModalOpen] = useState(false);
@@ -142,6 +147,7 @@ function App() {
       );
     }
   };
+
 
   // ======= Capture values from adding spending, income, and upcoming bills =======
   const [transactionName, setTransactionName] = useState("");
@@ -203,7 +209,7 @@ function App() {
     })
       .then((res) => {
         if (res.ok) {
-          fetchTransactions(); // refresh list
+          fetchTransactions(); 
         } else {
           console.error("Failed to delete transaction");
         }
@@ -211,15 +217,18 @@ function App() {
       .catch((err) => console.error("Error deleting transaction", err));
   };
 
+
   // ======= Transactions =======
   const totalIncome = transactions.filter(t => t.type === "INCOME").reduce((sum, t) => sum + t.amount, 0);
   const totalExpense = transactions.filter(t => t.type === "EXPENSE").reduce((sum, t) => sum + t.amount, 0);
   const netTotal = totalIncome - totalExpense;
 
+
   // ======= Load on startup =======
   useEffect(() => {
     if (loggedIn) fetchTransactions();
   }, [loggedIn]);
+
 
   // ======= Displaying the date =======
   const [currentDate, setCurrentDate] = useState('');
@@ -231,7 +240,8 @@ function App() {
       .catch(error => console.error('Error fetching date:', error));
   }, []);
 
-  // ======= charts =======
+
+  // ======= Charts =======
   const getLineChartData = () => {
     let income = 0;
     let expense = 0;
@@ -263,6 +273,90 @@ function App() {
     }));
   };
 
+
+  // ======= ChatBot =======
+  const [assistantPrompt, setAssistantPrompt] = useState("");
+  const [assistantResponse, setAssistantResponse] = useState("");
+  const [isAssistantLoading, setIsAssistantLoading] = useState(false);
+
+  const formatTransactionsForPrompt = () => {
+    console.log("Transactions array:", transactions);
+
+    if (transactions.length === 0) return "No transaction data available.";
+  
+    const expenseSummary = transactions
+      .filter(t => t.type === "EXPENSE")
+      .reduce((acc, t) => {
+        acc[t.category] = (acc[t.category] || 0) + t.amount;
+        return acc;
+      }, {});
+  
+    const incomeTotal = transactions
+      .filter(t => t.type === "INCOME")
+      .reduce((sum, t) => sum + t.amount, 0)
+      .toFixed(2);
+  
+    const expenseBreakdown = Object.entries(expenseSummary)
+      .map(([category, amount]) => `${category}: $${amount.toFixed(2)}`)
+      .join(", ");
+  
+    return `Income: $${incomeTotal}. Spending by category: ${expenseBreakdown}.`;
+  };
+
+  const handleAssistantSubmit = () => {
+    if (!assistantPrompt.trim()) return;
+  
+    setIsAssistantLoading(true);
+
+    const context = formatTransactionsForPrompt();
+    const fullPrompt = `
+    Pretend you are a financial assistant helping users understand their spending habits. 
+    Analyze the following summary and identify 2 to 3 specific patterns or areas where the user might consider adjusting their spending. 
+    Frame your observations gently using phrases like "you might consider" or "it could help to..." 
+    Do not include disclaimers or general advice.
+
+    Here is the summary:
+    ${context}
+    `;
+
+    console.log("Prompt being sent to backend:", fullPrompt);
+  
+    fetch("http://localhost:8080/api/chatbot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: fullPrompt }),
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Bad response from server");
+        return res.text();
+      })
+      .then(data => {
+        console.log("Full response from AI:", data);
+        flushSync(() => setAssistantResponse(""));
+        simulateStreamingText(data);
+      })
+      .catch(err => {
+        console.error("Error fetching AI response:", err);
+        setAssistantResponse("Sorry, something went wrong.");
+      })
+      .finally(() => setIsAssistantLoading(false));
+  };
+
+  const simulateStreamingText = (text) => {
+    let index = 0;
+    setAssistantResponse("");
+  
+    const typeChar = () => {
+      if (index < text.length) {
+        setAssistantResponse(text.slice(0, index));
+        index++;
+        setTimeout(typeChar, 20); 
+      }
+    };
+  
+    typeChar();
+  };
+
   return (
     <div className="App">
       {!loggedIn && (
@@ -279,7 +373,7 @@ function App() {
         </div>
       )}
       <>
-        {/* show dashboard */}
+        {/* Show dashboard */}
         {loggedIn && (
         <div className={`Background ${justLoggedIn ? "fade-scale-in" : ""} ${isLoggingOut ? "fade-scale-out" : ""}`}>
           <div className="box-container">
@@ -350,7 +444,6 @@ function App() {
                       cx="50%"
                       cy="50%"
                       outerRadius={80}
-                      label
                     >
                       {getPieChartData().map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={['#FC6E4B', '#DC1F6E', '#03E8CD', '#FFA500', '#8B8B8B'][index % 5]} />
@@ -364,7 +457,30 @@ function App() {
 
             {/* Box 5: AI assistant */}
             <div className="box5">
-              <text className='box5-title'>AI Assistant</text>
+              <text className="box5-title">AI Assistant</text>
+              <div className="ai-assistant">
+                <div className="assistant-response-box">
+                {isAssistantLoading ? (
+                  <div className="typing-indicator">
+                    <span></span><span></span><span></span>
+                  </div>
+                ) : (
+                  assistantResponse && <p>{assistantResponse}</p>
+                )}
+                </div>
+                <div className="chat-input-container">
+                  <input
+                    className="assistant-input"
+                    type="text"
+                    placeholder="Type your question..."
+                    value={assistantPrompt}
+                    onChange={(e) => setAssistantPrompt(e.target.value)}
+                  />
+                  <button className="chat-submit" onClick={handleAssistantSubmit}>
+                    ▶
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* Box 6: Add Transaction */}

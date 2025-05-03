@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
+
 .App {
   text-align: center;
 }
@@ -28,7 +30,7 @@ body {
   width: 250px;
   height: 245px;
   border-radius: 25px;
-  background: #2A2D54; 
+  background: #2A2D54;
   position: absolute;
   top: 135px;
   left: 400px;
@@ -56,12 +58,20 @@ body {
 
 .box5 {
   width: 324px;
-  height: 335px;
+  height: 375px;
   border-radius: 25px;
   background: #2A2D54;
   position: absolute;
-  top: 350px;
+  top: 310px;
   left: 950px;
+}
+
+.box5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  align-items: center;
 }
 
 .box6 {
@@ -96,7 +106,7 @@ body {
 
 .box9 {
   width: 324px;
-  height: 190px;
+  height: 150px;
   border-radius: 25px;
   background: #2A2D54;
   position: absolute;
@@ -122,7 +132,7 @@ body {
 .box11 {
   width: 297px;
   height: 64px;
-  background: #1C1E38; /* slightly darker than other boxes */
+  background: #1C1E38;
   border-radius: 25px;
   position: absolute;
   top: 35px;
@@ -133,10 +143,6 @@ body {
   padding-right: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
-
-
-@import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
 
 .title-box {
   width: 466px;
@@ -174,7 +180,7 @@ body {
   font-weight: 400;
   cursor: pointer;
   text-align: left;
-  padding: 10px; /* adjust padding for top-left positioning */
+  padding: 10px;
   position: relative;
   left: 55px;
 }
@@ -188,17 +194,17 @@ body {
   font-weight: 400;
   cursor: pointer;
   text-align: left;
-  padding: 10px; /* adjust padding for top-left positioning */
+  padding: 10px;
   position: relative;
   left: 60px;
 }
 
 .text-button6:hover {
-  color: #03E8CD; /* bright teal on hover */
+  color: #03E8CD;
 }
 
 .text-button7:hover {
-  color: #03E8CD; /* bright teal on hover */
+  color: #03E8CD;
 }
 
 .box6 .box6-title {
@@ -234,7 +240,7 @@ body {
   font-weight: 400;
   position: relative;
   top: 15px;
-  left:-113px;
+  left: -113px;
 }
 
 .box5 .box5-title {
@@ -246,7 +252,7 @@ body {
   font-weight: 400;
   position: relative;
   top: 15px;
-  left:-96px;
+  left: -96px;
 }
 
 .box1 .box1-title {
@@ -258,7 +264,7 @@ body {
   font-weight: 400;
   position: relative;
   top: 15px;
-  left:-50px;
+  left: -50px;
 }
 
 .box8 .box8-title {
@@ -270,7 +276,7 @@ body {
   font-weight: 400;
   position: relative;
   top: 15px;
-  left:-57px;
+  left: -57px;
 }
 
 .box4 .box4-title {
@@ -282,7 +288,7 @@ body {
   font-weight: 400;
   position: relative;
   top: 13px;
-  left:-35px;
+  left: -35px;
 }
 
 .box9 .box9-title {
@@ -294,7 +300,7 @@ body {
   font-weight: 400;
   position: relative;
   top: 5px;
-  left:-72px;
+  left: -72px;
 }
 
 .text-button9 {
@@ -306,13 +312,13 @@ body {
   font-weight: 400;
   cursor: pointer;
   text-align: left;
-  padding: 10px; /* adjust padding for top-left positioning */
+  padding: 10px;
   position: relative;
   left: 80px;
 }
 
 .text-button9:hover {
-  color: #03E8CD; /* bright teal on hover */
+  color: #03E8CD;
 }
 
 .modal-overlay {
@@ -377,12 +383,12 @@ body {
 
 .box11 .date-text {
   font-family: 'Lexend', sans-serif;
-  color: #B0B3C5; /* muted gray-blue for a modern look */
+  color: #B0B3C5;
   font-size: 18px;
   font-weight: 400;
   position: relative;
-  left: -60px;
-  
+  left: -110px;
+
 }
 
 .net-total-text {
@@ -429,7 +435,7 @@ body {
   align-items: center;
   position: absolute;
   top: 35px;
-  left: 1150px; /* adjust this to match your layout */
+  left: 1150px;
 }
 
 .user-name {
@@ -478,8 +484,8 @@ body {
 
 .user-info-wrapper {
   position: absolute;
-  top: 35px;            /* aligns with date/net total boxes */
-  left: 1210px;         /* adjust as needed */
+  top: 35px;
+  left: 1210px;
   width: 66px;
   height: 66px;
 }
@@ -487,9 +493,9 @@ body {
 .user-name {
   position: absolute;
   top: 50%;
-  right: 76px; /* 66px for circle + 10px gap */
+  right: 76px;
   transform: translateY(-50%);
-  width: 100px;            /* give it enough width */
+  width: 100px;
   text-align: right;
   font-family: 'Lexend', sans-serif;
   font-size: 12px;
@@ -552,7 +558,7 @@ body {
 }
 
 .box6 .box-total {
-  margin-top:5px;
+  margin-top: 5px;
   font-size: 25px;
   font-family: 'Lexend', sans-serif;
   color: #FC6E4B;
@@ -596,19 +602,7 @@ body {
   color: #FFFFFF;
   position: absolute;
   margin-top: 5px;
-  max-height: 130px; /* Adjust as needed for .box9's height */
-}
-
-
-@keyframes fadeScaleIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  max-height: 130px;
 }
 
 .box3,
@@ -617,7 +611,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 30px; /* space below title */
+  padding-top: 30px;
   padding-left: 10px;
   padding-right: 10px;
   box-sizing: border-box;
@@ -647,7 +641,7 @@ body {
 .box3 {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* or center, or flex-end */
+  justify-content: flex-start;
   align-items: center;
   padding-top: 30px;
   padding-bottom: 20px;
@@ -657,10 +651,178 @@ body {
   overflow: hidden;
 }
 
+.ai-assistant {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: 12px;
+  align-items: center;
+}
 
+.chat-log {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-right: 6px;
+  padding-left: 6px;
+}
+
+.chat-message {
+  font-family: 'Lexend', sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  padding: 10px 14px;
+  border-radius: 20px;
+  max-width: 95%;
+  word-break: break-word;
+}
+
+.chat-message.system {
+  background-color: #D3D3D3;
+  color: black;
+  align-self: flex-start;
+}
+
+.chat-message.user {
+  background: linear-gradient(135deg, #3D3DF9, #6E6EFA);
+  color: white;
+  align-self: flex-end;
+}
+
+.chat-message.assistant {
+  background-color: #E5E5E5;
+  color: black;
+  align-self: flex-start;
+}
+
+.chat-input-container {
+  display: flex;
+  align-items: center;
+  background-color: #D9D9D9;
+  border-radius: 999px;
+  padding: 6px 10px;
+  width: 270px;
+  position: relative;
+  top: 2px;
+
+}
+
+.assistant-input {
+  flex: 1;
+  font-family: 'Lexend', sans-serif;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  padding-left: 6px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.chat-submit {
+  background: linear-gradient(135deg, #3D3DF9, #6E6EFA);
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin-left: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-submit {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-submit:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px #6E6EFA;
+}
+
+.assistant-response-box {
+  background: linear-gradient(470deg, #0026ff 1.4%, #1695bb 98.55%);
+  color: #FFFFFF;
+  font-family: 'Lexend', sans-serif;
+  font-size: 13px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  height: 250px;
+  overflow-y: auto;
+  margin: 10px;
+  text-align: left;
+  word-wrap: break-word;
+  line-height: 1.3;
+  width: 270px;
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background-color: #6E6EFA;
+  border-radius: 50%;
+  display: inline-block;
+  animation: typingBlink 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
 
 .modal-animate {
   animation: fadeScaleIn 0.3s ease-out;
+}
+
+@keyframes typingBlink {
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes fadeOutScale {
@@ -668,6 +830,7 @@ body {
     opacity: 1;
     transform: scale(0.9);
   }
+
   100% {
     opacity: 0;
     transform: scale(1);
