@@ -387,7 +387,7 @@ function App() {
             {/* All boxes */}
             {/* Box 1: Spending list */}
             <div className="box1">
-              <text className="box1-title">Spending List</text>
+              <span className="box1-title">Spending List</span>
               <ul className="transaction-list">
               {transactions
                 .filter(t => t.type === "EXPENSE")
@@ -405,7 +405,7 @@ function App() {
 
             {/* Box 3: Income and Expenses Graph */}
             <div className="box3">
-              <text className='box3-title'>Income and Expenses</text>
+              <span className='box3-title'>Income and Expenses</span>
               <ResponsiveContainer width="95%" height="85%">
                 <LineChart data={getLineChartData()}>
                   <CartesianGrid stroke="rgba(255, 255, 255, 0.1)" strokeDasharray="3 3" />
@@ -434,7 +434,7 @@ function App() {
 
             {/* Box 4: Spending categories breakdown */}
               <div className="box4">
-                <text className="box4-title">Spending Categories Breakdown</text>
+                <span className="box4-title">Spending Categories Breakdown</span>
                 <ResponsiveContainer width="100%" height="85%">
                   <PieChart>
                     <Pie
@@ -457,7 +457,7 @@ function App() {
 
             {/* Box 5: AI assistant */}
             <div className="box5">
-              <text className="box5-title">AI Assistant</text>
+              <span className="box5-title">AI Assistant</span>
               <div className="ai-assistant">
                 <div className="assistant-response-box">
                 {isAssistantLoading ? (
@@ -485,21 +485,21 @@ function App() {
 
             {/* Box 6: Add Transaction */}
             <div className="box6">
-              <text className='box6-title'>Spending</text>
+              <span className='box6-title'>Spending</span>
               <button className="text-button6" onClick={() => openModal("Spending")}>+</button>
               <div className="box-total">${spendingTotal}</div>
             </div>
 
             {/* Box 7: Add Income */}
             <div className="box7">
-              <text className='box7-title'>Income</text>
+              <span className='box7-title'>Income</span>
               <button className="text-button7" onClick={() => openModal("Income")}>+</button>
               <div className="box-total">${incomeTotal}</div>
             </div>
 
             {/* Box 8: Income list */}
             <div className="box8">
-              <text className="box8-title">Income List</text>
+              <span className="box8-title">Income List</span>
               <ul className="transaction-list">
                 {transactions
                   .filter(t => t.type === "INCOME") 
@@ -517,7 +517,7 @@ function App() {
 
             {/* Box 9: Upcoming bills */}
             <div className="box9">
-              <text className="box9-title">Upcoming Bills</text>
+              <span className="box9-title">Upcoming Bills</span>
               <button className="text-button9" onClick={() => openModal("Bills")}>+</button>
               <ul className="transaction-list">
                 {transactions
