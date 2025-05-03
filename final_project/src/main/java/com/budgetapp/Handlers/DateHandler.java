@@ -11,21 +11,27 @@ import com.sun.net.httpserver.HttpHandler;
 public class DateHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        // Handle CORS requests
         if (CorsUtils.handleOptions(exchange)) return;
 
+        // Only handle GET requests
         if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-            CorsUtils.setCorsHeaders(exchange); // Set CORS headers
+            // Set CORS headers
+            CorsUtils.setCorsHeaders(exchange); 
 
+            // Get today's date and format it as "Month Day, Year"
             LocalDate today = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
             String response = today.format(formatter);
 
+            // Send formatted date as a plain test response
             exchange.sendResponseHeaders(200, response.getBytes().length);
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();
         } else {
-            exchange.sendResponseHeaders(405, -1); // Method Not Allowed
+            // Reject all non GET requests
+            exchange.sendResponseHeaders(405, -1); 
             exchange.close();
         }
     }

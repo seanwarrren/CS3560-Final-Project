@@ -2,7 +2,11 @@ package com.budgetapp;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+// Represents a transaction, such as income, expense, or bill
+// Each transaction has a unique ID, name, category, amount, and type
 public class Transaction {
+
+    // Atomic counter to ensure unique transaction IDs 
     private static final AtomicLong counter = new AtomicLong();
     
     private long id;
@@ -11,6 +15,7 @@ public class Transaction {
     private double amount;
     private TransactionType type;
 
+    // Constructor for manually assigning an ID
     public Transaction(long id, String name, String category, double amount, TransactionType type) {
         this.id = id;
         this.name = name;
@@ -19,6 +24,7 @@ public class Transaction {
         this.type = type;
     }
 
+    // Constructor that auto-generates an ID using atomic counter
     public Transaction(String name, String category, double amount, TransactionType type) {
         this.name = name;
         this.id = counter.incrementAndGet();
@@ -27,7 +33,7 @@ public class Transaction {
         this.type = type;
     }
 
-    // getters and setters
+    // Getters and setters
     public long getId() { 
         return id; 
     }

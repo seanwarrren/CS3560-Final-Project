@@ -15,13 +15,16 @@ import com.sun.net.httpserver.HttpHandler;
 public class GetTransactionsHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-
+        // Only allow GET requests
         if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+            // Set CORS headers
             CorsUtils.setCorsHeaders(exchange);
 
+            // Retrieve all transactions from the TransactionManager
             List<Transaction> transactions = TransactionManager.getAllTransactions();
             JSONArray jsonArray = new JSONArray();
 
+            // Convert each transaction into a JSON object and add to array
             for (Transaction t : transactions) {
                 JSONObject obj = new JSONObject();
                 obj.put("id", t.getId());
@@ -32,13 +35,15 @@ public class GetTransactionsHandler implements HttpHandler {
                 jsonArray.put(obj);
             }
 
+            // Send the transaction list as the response
             String response = jsonArray.toString();
             exchange.sendResponseHeaders(200, response.getBytes().length);
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();
         } else {
-            exchange.sendResponseHeaders(405, -1); // Method Not Allowed
+            // Respond with 405 if method is not GET
+            exchange.sendResponseHeaders(405, -1); 
         }
     }
 }

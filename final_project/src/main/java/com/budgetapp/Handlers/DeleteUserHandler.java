@@ -10,21 +10,31 @@ import com.sun.net.httpserver.HttpHandler;
 public class DeleteUserHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        // Handle CORS requests
         if (CorsUtils.handleOptions(exchange)) return;
 
+        // Check if request method is DELETE
         if ("DELETE".equals(exchange.getRequestMethod())) {
+            // Add CORS headers to response
             CorsUtils.setCorsHeaders(exchange);
 
+            // Delete current user from memory
             UserManager.deleteUser();
+
+            // Clear all associated transactions from memory
             TransactionManager.clearTransactions();
+
+            // Send confirmation message 
             String response = "User deleted";
-            System.out.println(response);
+            System.out.println(response); // log deletion
             
+            // Return HTTP 200 OK with response message
             exchange.sendResponseHeaders(200, response.length());
             exchange.getResponseBody().write(response.getBytes());
             exchange.close();
         } else {
-            exchange.sendResponseHeaders(405, -1); // Method Not Allowed
+            // If method is not DELETE, respond with 405 Method Not Allowed
+            exchange.sendResponseHeaders(405, -1); 
             exchange.close();
         }
     }

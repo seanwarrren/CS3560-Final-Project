@@ -3,12 +3,15 @@ package com.budgetapp.handlers;
 import com.sun.net.httpserver.HttpExchange;
 
 public class CorsUtils {
+
+    // Sets required CORS headers to allow frontend to communicate with this server
     public static void setCorsHeaders(HttpExchange exchange) {
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:3000");
         exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type");
     }
 
+    // Handles OPTIONS requests sent by the browser to check CORS permissions
     public static boolean handleOptions(HttpExchange exchange) {
         if ("OPTIONS".equalsIgnoreCase(exchange.getRequestMethod())) {
             setCorsHeaders(exchange);
@@ -16,10 +19,10 @@ public class CorsUtils {
                 exchange.sendResponseHeaders(204, -1); // No Content
                 exchange.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(); // Log error if response fails
             }
             return true;
         }
-        return false;
+        return false; // Not an OPTIONS request
     }
 }
