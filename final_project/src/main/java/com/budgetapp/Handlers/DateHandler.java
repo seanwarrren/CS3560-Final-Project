@@ -11,14 +11,12 @@ import com.sun.net.httpserver.HttpHandler;
 public class DateHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // Handle CORS requests
+        // Handle CORS requests 
         if (CorsUtils.handleOptions(exchange)) return;
+        CorsUtils.setCorsHeaders(exchange);
 
         // Only handle GET requests
         if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-            // Set CORS headers
-            CorsUtils.setCorsHeaders(exchange); 
-
             // Get today's date and format it as "Month Day, Year"
             LocalDate today = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
