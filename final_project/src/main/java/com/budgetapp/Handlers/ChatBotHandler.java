@@ -19,7 +19,9 @@ public class ChatBotHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         // Handle CORS and set headers
-        if (CorsUtils.handleOptions(exchange)) return;
+        if (CorsUtils.handleOptions(exchange)) {
+            return;
+        }
             CorsUtils.setCorsHeaders(exchange);
 
         // Ensure HTTP method is POST

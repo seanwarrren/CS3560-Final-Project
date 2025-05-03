@@ -14,10 +14,11 @@ public class CreateUserHandler implements HttpHandler {
         // Handle CORS requests
         if (CorsUtils.handleOptions(exchange)) return;
 
+        // Apply CORS headers
+        CorsUtils.setCorsHeaders(exchange); 
+
         // Only allow POST requests to create a user
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-            // Apply CORS headers
-            CorsUtils.setCorsHeaders(exchange); 
 
             // Read request body and extract the username
             InputStream is = exchange.getRequestBody();

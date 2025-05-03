@@ -15,10 +15,13 @@ import com.sun.net.httpserver.HttpHandler;
 public class GetTransactionsHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+
+        // Set CORS headers
+        if (CorsUtils.handleOptions(exchange)) return;
+        CorsUtils.setCorsHeaders(exchange);
+        
         // Only allow GET requests
         if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-            // Set CORS headers
-            CorsUtils.setCorsHeaders(exchange);
 
             // Retrieve all transactions from the TransactionManager
             List<Transaction> transactions = TransactionManager.getAllTransactions();

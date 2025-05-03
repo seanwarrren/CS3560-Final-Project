@@ -13,10 +13,11 @@ public class DeleteUserHandler implements HttpHandler {
         // Handle CORS requests
         if (CorsUtils.handleOptions(exchange)) return;
 
+        // Add CORS headers to response
+        CorsUtils.setCorsHeaders(exchange);
+
         // Check if request method is DELETE
         if ("DELETE".equals(exchange.getRequestMethod())) {
-            // Add CORS headers to response
-            CorsUtils.setCorsHeaders(exchange);
 
             // Delete current user from memory
             UserManager.deleteUser();
