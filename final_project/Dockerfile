@@ -1,18 +1,16 @@
 FROM openjdk:17-slim
 
-# Create working directory
+# Set working directory
 WORKDIR /app
 
-# Copy source code and dependencies
+# Copy source code and jar dependencies
 COPY src/main/java /app
 COPY src/main/java/lib/json-20210307.jar /app/lib/json-20210307.jar
 
-# Compile all .java files recursively
-RUN find . -name "*.java" > sources.txt && \
-    javac -cp ".:/app/lib/json-20210307.jar" @sources.txt
+# Compile Java source into classes/ directory
+RUN mkdir -p /app/classes && \
+    find . -name "*.java" > sources.txt && \
+    javac -d /app/classes -cp ".:/app/lib/json-20210307.jar" @sources.txt
 
-# Expose port (optional)
-EXPOSE 8080
-
-# Run the server
-CMD ["java", "-cp", ".:/app/lib/json-20210307.jar", "com.budgetapp.WebServer"]
+# Set runtime command
+CMD ["java", "-cp", "/app/classes:/app/lib/json-20210307.jar", "com.budgetapp.WebServer"]
