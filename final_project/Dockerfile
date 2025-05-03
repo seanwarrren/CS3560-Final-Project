@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copy source code and dependencies
 COPY src/main/java /app
-COPY lib/json-20210307.jar /app/lib/json-20210307.jar
+COPY src/main/java/lib/json-20210307.jar /app/lib/json-20210307.jar
 
 # Compile all .java files recursively
 RUN find . -name "*.java" > sources.txt && \
