@@ -1,36 +1,44 @@
 package com.budgetapp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 // Manages a list of transactions
 public class TransactionManager {
     
-    // List to store all transactions
-    private static final List<Transaction> transactions = new ArrayList<>();
+    // Map username -> their transactions
+    private static final Map<String, List<Transaction>> transactionsByUser = new HashMap<>();
 
     // Counter to generate IDs for each transaction
     private static final AtomicLong idCounter = new AtomicLong();
     
-    // Adds a new transaction to the list and assigns a unique ID
-    public static synchronized void addTransaction(Transaction transaction) {
-        transaction.setId(idCounter.incrementAndGet());
-        transactions.add(transaction);
-    }
+    // Adds a new transaction for the given user
+    public static synchronized void addTransaction(String user, Transaction t) {
+        t.setId(idCounter.incrementAndGet());
+        transactionsByUser
+          .computeIfAbsent(user, u -> new ArrayList<>())
+          .add(t);
+      }
 
-    // Retrieves a copy of all transactions
-    public static synchronized List<Transaction> getAllTransactions() {
-        return new ArrayList<>(transactions);
-    }
+    // Retrieves a copy of all transactions for the given user
+    public static synchronized List<Transaction> getAllTransactions(String user) {
+        return new ArrayList<>(transactionsByUser.getOrDefault(user, List.of()));
+      }
+    
 
-    // Removes a transaction by its ID
-    public static synchronized void deleteTransaction(long id) {
-        transactions.removeIf(tx -> tx.getId() == id);
-    }
+    // Removes a transaction by its ID for the given user
+    public static synchronized void deleteTransaction(String user, long id) {
+        List<Transaction> list = transactionsByUser.get(user);
+        if (list != null) {
+          list.removeIf(t -> t.getId() == id);
+        }
+      }
 
-    // Clears all transactions from the list
-    public static synchronized void clearTransactions() {
-        transactions.clear();
-    }
+    // Clears all transactions for the given user
+    public static synchronized void clearTransactions(String user) {
+        transactionsByUser.remove(user);
+      }
 }

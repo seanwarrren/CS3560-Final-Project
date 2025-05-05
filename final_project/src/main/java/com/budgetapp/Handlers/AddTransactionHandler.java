@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.budgetapp.Transaction;
 import com.budgetapp.TransactionManager;
 import com.budgetapp.TransactionType;
+import com.budgetapp.UserManager;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -23,6 +24,13 @@ public class AddTransactionHandler implements HttpHandler {
 
         // Only accept POST requests
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+            // Ensure a user is logged in
+            String user = UserManager.getCurrentUser();
+            if (user == null) {
+                exchange.sendResponseHeaders(401, -1); // Unauthorized
+                return;
+            }
+
             InputStream is = exchange.getRequestBody();
             String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
@@ -39,7 +47,7 @@ public class AddTransactionHandler implements HttpHandler {
                 Transaction transaction = new Transaction(name, category, amount, type);
 
                 // Add transaction to manager
-                TransactionManager.addTransaction(transaction);
+                TransactionManager.addTransaction(user, transaction);
 
                 // Send success response
                 String response = "Transaction added successfully";

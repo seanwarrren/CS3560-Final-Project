@@ -19,11 +19,19 @@ public class DeleteUserHandler implements HttpHandler {
         // Check if request method is DELETE
         if ("DELETE".equals(exchange.getRequestMethod())) {
 
+            // Fetch the username of the currently logged-in user
+            String user = UserManager.getCurrentUser();
+            if (user == null) {
+                // No user logged in → unauthorized
+                exchange.sendResponseHeaders(401, -1);
+                return;
+            }
+
             // Delete current user from memory
             UserManager.deleteUser();
 
             // Clear all associated transactions from memory
-            TransactionManager.clearTransactions();
+            TransactionManager.clearTransactions(user);
 
             // Send confirmation message 
             String response = "User deleted";

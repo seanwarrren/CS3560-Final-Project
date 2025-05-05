@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.budgetapp.Transaction;
 import com.budgetapp.TransactionManager;
+import com.budgetapp.UserManager;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -19,12 +20,20 @@ public class GetTransactionsHandler implements HttpHandler {
         // Set CORS headers
         if (CorsUtils.handleOptions(exchange)) return;
         CorsUtils.setCorsHeaders(exchange);
-        
+
         // Only allow GET requests
         if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
 
-            // Retrieve all transactions from the TransactionManager
-            List<Transaction> transactions = TransactionManager.getAllTransactions();
+            // Determine which user is requesting their transactions
+            String user = UserManager.getCurrentUser();
+            if (user == null) {
+                // No user logged in -> unauthorized
+                exchange.sendResponseHeaders(401, -1);
+                return;
+            }
+
+            // Fetch this user's transactions
+            List<Transaction> transactions = TransactionManager.getAllTransactions(user);
             JSONArray jsonArray = new JSONArray();
 
             // Convert each transaction into a JSON object and add to array

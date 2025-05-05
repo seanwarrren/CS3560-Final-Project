@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import com.budgetapp.TransactionManager;
+import com.budgetapp.UserManager;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -16,6 +17,14 @@ public class DeleteTransactionHandler implements HttpHandler {
 
         // Only accept DELETE requests
         if ("DELETE".equalsIgnoreCase(exchange.getRequestMethod())) {
+            // Ensure a user is logged in
+            String user = UserManager.getCurrentUser();
+            if (user == null) {
+                // Unauthorized if no user in session
+                exchange.sendResponseHeaders(401, -1);
+                return;
+            }
+
             // Extract query string
             String query = exchange.getRequestURI().getQuery();
 
@@ -26,7 +35,7 @@ public class DeleteTransactionHandler implements HttpHandler {
                     long id = Long.parseLong(query.split("=")[1]);
 
                     // Delete transaction with the given ID
-                    TransactionManager.deleteTransaction(id);
+                    TransactionManager.deleteTransaction(user, id);
 
                     // Send success response
                     String response = "Transaction deleted";
