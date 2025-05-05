@@ -13,6 +13,7 @@ public class CorsUtils {
         }
         exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Content-Type");
+        exchange.getResponseHeaders().set("Vary", "Origin");
       }
 
     // Handles OPTIONS requests sent by the browser to check CORS permissions
