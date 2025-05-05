@@ -47,3 +47,7 @@ The entire application is deployed on Render. Open the following link:
 - Since all data is stored in memory, the data is lost as soon as the user logs out
 - Generation of AI response can be slow
 - After login, a blank screen may appear; must hard reload to see dashboard
+
+## Overview + Demonstration Video
+Watch here ↓
+> https://drive.google.com/file/d/1OS7vEqgOJ2XqZu_QwUkIaHdR0XE07rIA/view?usp=drive_link
