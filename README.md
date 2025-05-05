@@ -26,7 +26,7 @@ The entire application is deployed on Render. Open the following link:
 
 ## Features Implemented
 - Name-based login/logout
-- In-memory user and transaction storage
+- In-memory, per-user transaction storage so each user has their own isolated spending list
 - Add/delete expenses, income, bills
 - Line chart of cumulative income vs. expenses using Recharts
 - Pie chart of expense categories
@@ -34,7 +34,7 @@ The entire application is deployed on Render. Open the following link:
 - AI Assistant integration via Cohere API
 - CORS Support
 - Dockerfile for easy deployment
-- Deployed using Render
+- Fully deployed on Render with automated builds and updates
   
 ## Future Work
 - Utilize a database for persistent storage of user transaction data
@@ -46,3 +46,4 @@ The entire application is deployed on Render. Open the following link:
 ## Known Issues/Bugs/Limitations
 - Since all data is stored in memory, the data is lost as soon as the user logs out
 - Generation of AI response can be slow
+- After login, a blank screen may appear; must hard reload to see dashboard
