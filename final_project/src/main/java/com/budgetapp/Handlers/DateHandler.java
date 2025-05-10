@@ -3,6 +3,8 @@ package com.budgetapp.handlers;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -18,7 +20,7 @@ public class DateHandler implements HttpHandler {
         // Only handle GET requests
         if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
             // Get today's date and format it as "Month Day, Year"
-            LocalDate today = LocalDate.now();
+            LocalDate today = ZonedDateTime.now(ZoneId.of("America/California")).toLocalDate();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
             String response = today.format(formatter);
 
