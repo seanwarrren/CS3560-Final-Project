@@ -20,7 +20,7 @@ public class DateHandler implements HttpHandler {
         // Only handle GET requests
         if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
             // Get today's date in PST and format it as "Month Day, Year"
-            LocalDate today = ZonedDateTime.now(ZoneId.of("America/California")).toLocalDate();
+            LocalDate today = ZonedDateTime.now(ZoneId.of("America/Los_Angeles")).toLocalDate();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
             String response = today.format(formatter);
 
