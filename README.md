@@ -50,5 +50,5 @@ The entire application is deployed on Render. Open the following link:
 
 ## Overview + Demonstration Video
 Watch here ↓
-> https://drive.google.com/file/d/1OS7vEqgOJ2XqZu_QwUkIaHdR0XE07rIA/view?usp=drive_link  
+> https://drive.google.com/file/d/17rq8BUhKxkIZptViV2yrIs_9br7WVQr-/view?usp=sharing  
 > Link to Slides: https://drive.google.com/file/d/1wgJJm2o3KSVEhQ2gFiIQsKeL26OHK75n/view?usp=sharing 
